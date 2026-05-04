@@ -14,8 +14,7 @@ class DetectorHit:
     time: float = 0.0     # Time of detection
     detector_layer: int = 0  # Which layer of detector
 
-
-class ParticleGenerator:
+class ParticleGenerator: 
     
     def __init__(self, seed: int = None):
     
