@@ -28,7 +28,7 @@ class ParticleGenerator:
         direction: np.ndarray,
         num_hits: int = 10,
         spacing: float = 1.0,
-        measurement_error: float = 0.1
+        measurement_error: float = 0.01
     ) -> List[DetectorHit]:
     
         # Normalize direction to unit vector (length = 1)
@@ -69,7 +69,7 @@ class ParticleGenerator:
         initial_direction: np.ndarray,
         curvature: float,
         num_hits: int = 20,
-        measurement_error: float = 0.1
+        measurement_error: float = 0.01
     ) -> List[DetectorHit]:
        
         hits = []
