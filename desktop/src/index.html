@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Particle Track Reconstruction</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>Particle Track Reconstruction</h1>
+        <div class="header-subtitle">Kalman Filter + RANSAC Track Fitting</div>
+    </div>
+
+    <div class="main-layout">
+
+        <!-- 3D View -->
+        <div class="visualization-panel">
+            <div class="panel-title">3D Detector View</div>
+            <div id="canvas-container"></div>
+            <div class="canvas-legend">
+                <span class="legend-item">
+                    <span class="dot cyan"></span> Detector Hits
+                </span>
+                <span class="legend-item">
+                    <span class="dot green"></span> Kalman Track
+                </span>
+                <span class="legend-item">
+                    <span class="dot magenta"></span> RANSAC Track
+                </span>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="control-panel">
+
+            <div class="section">
+                <div class="section-title">Controls</div>
+                <div class="control-group">
+                    <label>Number of Tracks</label>
+                    <input type="range" id="num-tracks" min="1" max="5" value="3">
+                    <span id="num-tracks-value">3</span>
+                </div>
+                <div class="control-group">
+                    <label>Hits per Track</label>
+                    <input type="range" id="hits-per-track" min="5" max="30" value="15">
+                    <span id="hits-per-track-value">15</span>
+                </div>
+                <button id="btn-generate" class="btn btn-primary">Generate Event</button>
+                <button id="btn-kalman" class="btn btn-green" disabled>Fit Kalman Filter</button>
+                <button id="btn-ransac" class="btn btn-magenta" disabled>Fit RANSAC</button>
+                <button id="btn-clear" class="btn btn-secondary">Clear</button>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Status</div>
+                <div id="status-message" class="status-message">
+                    Ready. Click "Generate Event" to start.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Statistics</div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Hits</div>
+                        <div class="stat-value" id="stat-hits">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Tracks</div>
+                        <div class="stat-value" id="stat-tracks">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Chi²/NDF</div>
+                        <div class="stat-value" id="stat-chi2">-</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Inlier Ratio</div>
+                        <div class="stat-value" id="stat-inliers">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="kalman-results" style="display:none">
+                <div class="section-title" style="color:#00ff88">Kalman Results</div>
+                <div class="result-grid">
+                    <div class="result-row">
+                        <span>Quality:</span>
+                        <span id="kalman-quality">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Chi²/NDF:</span>
+                        <span id="kalman-chi2">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Hits Used:</span>
+                        <span id="kalman-hits">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Direction:</span>
+                        <span id="kalman-dir">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="ransac-results" style="display:none">
+                <div class="section-title" style="color:#ff00ff">RANSAC Results</div>
+                <div class="result-grid">
+                    <div class="result-row">
+                        <span>Quality:</span>
+                        <span id="ransac-quality">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Inliers:</span>
+                        <span id="ransac-inliers">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Outliers:</span>
+                        <span id="ransac-outliers">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span>Inlier Ratio:</span>
+                        <span id="ransac-ratio">-</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../node_modules/three/build/three.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
